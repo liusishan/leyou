@@ -320,4 +320,17 @@ public class SearchService {
             return null;
         }
     }
+
+    public void createOrUpdateIndex(Long spuId) {
+        // 查询 spu
+        Spu spu = goodsClient.querySpuById(spuId);
+        // 构建 goods 方法
+        Goods goods = buildGoods(spu);
+        // 存入索引库
+        repository.save(goods);
+    }
+
+    public void deleteIndex(Long spuId) {
+        repository.deleteById(spuId);
+    }
 }
