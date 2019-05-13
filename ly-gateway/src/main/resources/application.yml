@@ -13,6 +13,7 @@ zuul:
   routes:
     item-service: /item/**  # 将商品微服务映射到/item/**
     search-service: /search/**  # 将搜索微服务映射到/search/**
+    user-service: /user/**
     upload-service:
       path: /upload/** # 将文件上传映射到 /upload/**
       serviceId: upload-service
