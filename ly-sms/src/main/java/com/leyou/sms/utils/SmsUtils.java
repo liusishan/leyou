@@ -44,11 +44,12 @@ public class SmsUtils {
 
     public SendSmsResponse sendSms(String phoneNumber, String signName, String templateCode, String templateParam) {
         String key = KEY_PREFIX + phoneNumber;
-        // 读取时间
+        // 读取时间，限流
         String lastTime = redisTemplate.opsForValue().get(key);
         if (StringUtils.isNotBlank(lastTime)) {
             Long last = Long.valueOf(lastTime);
             if (System.currentTimeMillis() - last < SMS_MIN_INTERVAL_IN_MILLIS) {
+                log.info("[短信服务] 发送短信频率过高，被拦截，手机号码:{}", phoneNumber);
                 return null;
             }
         }
@@ -80,7 +81,8 @@ public class SmsUtils {
             if (!"OK".equals(sendSmsResponse.getCode())) {
                 log.info("[短信服务] 发送短信失败, phoneNumber:{}, 原因:{}", phoneNumber, sendSmsResponse.getMessage());
             }
-
+            // 发送短信日志
+            log.info("[短信服务], 发送短信沿验证码, 手机号:{}", phoneNumber);
             // 发送短信成功后，写入 redis, 指定生存时间为 1 分钟
             redisTemplate.opsForValue().set(key, String.valueOf(System.currentTimeMillis()), 1, TimeUnit.MINUTES);
             return sendSmsResponse;
