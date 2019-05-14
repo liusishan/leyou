@@ -19,6 +19,8 @@ zuul:
       path: /upload/** # 将文件上传映射到 /upload/**
       serviceId: upload-service
       strip-prefix: false # 去掉前缀
+  add-host-header: true # 携带请求本身的 host 头信息
+  sensitive-headers:  # 禁用使用的头信息，设置为 null,否则 set-cookie 无效
 hystrix:
   command:
     default:
