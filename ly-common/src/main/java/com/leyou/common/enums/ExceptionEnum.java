@@ -36,10 +36,9 @@ public enum ExceptionEnum {
     INVALID_FILE_TYPE(500, "无效的文件类型"),
     INVALID_USER_DATA_TYPE(400, "用户数据类型无效"),
     INVALID_USERNAME_PASSWORD(400, "用户名或密码错误"),
-    INVALID_VERIFY_CODE(400,"无效的验证码"),
-    CREATE_TOKEN_ERROR(500,"用户凭证生成失败"),
-
-    ;
+    INVALID_VERIFY_CODE(400, "无效的验证码"),
+    CREATE_TOKEN_ERROR(500, "用户凭证生成失败"),
+    UNAUTHORIZED(403, "未授权"),;
 
     private int code;
     private String msg;
