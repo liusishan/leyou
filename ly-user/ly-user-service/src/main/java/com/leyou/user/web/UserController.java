@@ -40,7 +40,7 @@ public class UserController {
      * @param phone
      * @return
      */
-    @PostMapping("send")
+    @PostMapping("code")
     public ResponseEntity<Void> sendCode(@RequestParam("phone") String phone) {
         userService.sendCode(phone);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
