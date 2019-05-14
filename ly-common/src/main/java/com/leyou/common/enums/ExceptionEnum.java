@@ -36,7 +36,7 @@ public enum ExceptionEnum {
     INVALID_FILE_TYPE(500, "无效的文件类型"),
     INVALID_USER_DATA_TYPE(400, "用户数据类型无效"),
     INVALID_USERNAME_PASSWORD(400, "用户名或密码错误"),
-    INVALID_VERIFY_CODE(400,"参数有误，注册失败"),
+    INVALID_VERIFY_CODE(400,"无效的验证码"),
 
     ;
 

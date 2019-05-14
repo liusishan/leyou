@@ -2,7 +2,7 @@ package com.leyou.user.serivce;
 
 import com.leyou.common.enums.ExceptionEnum;
 import com.leyou.common.exception.LyException;
-import com.leyou.common.utils.CodecUtils;
+import com.leyou.user.utils.CodecUtils;
 import com.leyou.common.utils.NumberUtils;
 import com.leyou.user.mapper.UserMapper;
 import com.leyou.user.pojo.User;
@@ -74,16 +74,15 @@ public class UserService {
     public User queryUser(String username, String password) {
         User record = new User();
         record.setUsername(username);
+        // 查询用户
         User user = userMapper.selectOne(record);
         // 校验用户名
-        if (user == null) {
+        if (user == null)
             throw new LyException(ExceptionEnum.INVALID_USERNAME_PASSWORD);
-        }
         // 校验密码
-        if (!user.getPassword().equals(CodecUtils.md5Hex(password, user.getSalt()))) {
+        if (!StringUtils.equals(user.getPassword(), CodecUtils.md5Hex(password, user.getSalt())))
             throw new LyException(ExceptionEnum.INVALID_USERNAME_PASSWORD);
-        }
-        // 都正确
+        // 用户名和密码正确
         return user;
     }
 

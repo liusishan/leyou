@@ -5,9 +5,12 @@ import com.leyou.user.serivce.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 
 /**
@@ -47,7 +50,7 @@ public class UserController {
     }
 
     /**
-     * 根据参数中的用户名和密码查询指定用户
+     * 根据用户名和密码查询指定用户
      *
      * @param username
      * @param password
@@ -68,7 +71,11 @@ public class UserController {
      * @return
      */
     @PostMapping("register")
-    public ResponseEntity<Void> register(@Valid User user, @RequestParam("code") String code) {
+    public ResponseEntity<Void> register(@Valid User user, BindingResult result, @RequestParam("code") String code) {
+//        if (result.hasFieldErrors()) {
+//            throw new RuntimeException(result.getFieldErrors().stream()
+//                    .map(e -> e.getDefaultMessage()).collect(Collectors.joining("|")));
+//        }
         userService.register(user, code);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
