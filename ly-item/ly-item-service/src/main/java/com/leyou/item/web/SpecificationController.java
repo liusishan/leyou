@@ -23,14 +23,14 @@ public class SpecificationController {
     private SpecificationService specService;
 
     /**
-     * 根据分类 id 查询规格组
+     * 根据分类 id 查询规格组及组内参数
      *
      * @param cid
      * @return
      */
-    @GetMapping("groups/{cid}")
-    public ResponseEntity<List<SpecGroup>> queryGroupByCid(@PathVariable("cid") Long cid) {
-        return ResponseEntity.ok(specService.queryGroupByCid(cid));
+    @GetMapping("group")
+    public ResponseEntity<List<SpecGroup>> queryGroupByCid(@RequestParam("cid") Long cid) {
+        return ResponseEntity.ok(specService.queryListByCid(cid));
     }
 
     /**
@@ -121,17 +121,6 @@ public class SpecificationController {
     public ResponseEntity<Void> deleteParam(@PathVariable Long id) {
         specService.deleteParam(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-
-    /**
-     * 根据分类 id 查询规格组及组内参数
-     *
-     * @param cid
-     * @return
-     */
-    @GetMapping("group")
-    public ResponseEntity<List<SpecGroup>> queryListByCid(@RequestParam("cid") Long cid) {
-        return ResponseEntity.ok(specService.queryListByCid(cid));
     }
 
 }

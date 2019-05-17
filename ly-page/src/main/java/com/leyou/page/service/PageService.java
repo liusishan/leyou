@@ -1,5 +1,7 @@
 package com.leyou.page.service;
 
+import com.leyou.common.enums.ExceptionEnum;
+import com.leyou.common.exception.LyException;
 import com.leyou.item.pojo.*;
 import com.leyou.page.client.BrandClient;
 import com.leyou.page.client.CategoryClient;
@@ -50,29 +52,30 @@ public class PageService {
         Map<String, Object> model = new HashMap<>();
         // 查询 spu
         Spu spu = goodsClient.querySpuById(spuId);
+        if (!spu.getSaleable()) {
+            throw new LyException(ExceptionEnum.GOODS_NOT_SALEABLE);
+        }
         // 查询 skus
         List<Sku> skus = spu.getSkus();
         // 查询详情
         SpuDetail detail = spu.getSpuDetail();
-
-        // 装填模型数据
-        model.put("spu", spu);
-        model.put("skus", skus);
-        model.put("spuDetail", detail);
-
+        // 查询 brand
+        Brand brand = brandClient.queryBrandById(spu.getBrandId());
 
         // 查询商品分类
         List<Category> categories = categoryClient.queryCategoryByIds(
                 Arrays.asList(spu.getCid1(), spu.getCid2(), spu.getCid3()));
-        model.put("categories", categories);
-
-        // 查询 brand
-        Brand brand = brandClient.queryBrandById(spu.getBrandId());
-        model.put("brand", brand);
 
         // 查询规格组及组内参数
-        List<SpecGroup> groups = specClient.queryGroupByCid(spu.getCid3());
-        model.put("groups", groups);
+        List<SpecGroup> specs = specClient.queryGroupByCid(spu.getCid3());
+
+        // 装填模型数据
+        model.put("spu", spu);
+        model.put("skus", skus);
+        model.put("detail", detail);
+        model.put("categories", categories);
+        model.put("brand", brand);
+        model.put("specs", specs);
 
         // 查询商品分类下的特有规格参数
         List<SpecParam> params = specClient.queryParamList(null, spu.getCid3(), null, false);

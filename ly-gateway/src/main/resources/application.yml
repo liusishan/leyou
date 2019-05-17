@@ -15,6 +15,7 @@ zuul:
     search-service: /search/**  # 将搜索微服务映射到/search/**
     user-service: /user/**
     auth-service: /auth/**
+    cart-service: /cart/**
     upload-service:
       path: /upload/** # 将文件上传映射到 /upload/**
       serviceId: upload-service
@@ -29,7 +30,7 @@ hystrix:
           thread:
             timeoutInMillisecond: 5000 # 熔断超时时长：5000ms
 ribbon:
-  ConnectTimeout: 1000 # ribbon 连接超时时间(ms)
+  ConnectTimeout: 3000 # ribbon 连接超时时间(ms)
   ReadTimeout: 3500 # ribbon 通信超时时间(ms)
   MaxAutoRetriesNextServer: 0 # 同一服务不同实例的重试次数
   MaxAutoRetries: 0 # 同一实例的重试次数

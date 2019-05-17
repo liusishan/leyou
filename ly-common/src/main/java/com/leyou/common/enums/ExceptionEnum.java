@@ -24,6 +24,7 @@ public enum ExceptionEnum {
     GOODS_SKU_NOT_FOUND(404, "商品 SKU 没查到"),
     GOODS_ID_CANNOT_BE_NULL(400, "商品 id 不能为空"),
     GOODS_STOCK_NOT_FOUND(404, "商品库存没查到"),
+    GOODS_NOT_SALEABLE(400, "商品未上架"),
     BRAND_NOT_FOUND(404, "品牌没查到"),
     BRAND_SAVE_ERROR(500, "新增品牌失败"),
     SPEC_GROUP_SAVE_ERROR(500, "新增商品规格组失败"),
@@ -38,7 +39,9 @@ public enum ExceptionEnum {
     INVALID_USERNAME_PASSWORD(400, "用户名或密码错误"),
     INVALID_VERIFY_CODE(400, "无效的验证码"),
     CREATE_TOKEN_ERROR(500, "用户凭证生成失败"),
-    UNAUTHORIZED(403, "未授权"),;
+    UNAUTHORIZED(403, "未授权"),
+    CART_NOT_FOUND(404, "购物车为空"),
+    ;
 
     private int code;
     private String msg;

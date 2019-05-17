@@ -116,7 +116,7 @@ public class SpecificationService {
         Map<Long, List<SpecParam>> map = new HashMap<>();
 
         for (SpecParam param : specParams) {
-            if (!map.containsKey(map.get(param.getGroupId()))) {
+            if (!map.containsKey(param.getGroupId())) {
                 // 这个组 id 在 map 中不存在，新增一个list
                 map.put(param.getGroupId(), new ArrayList<>());
             }
