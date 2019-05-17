@@ -113,14 +113,14 @@
         <div id="item">
             <div class="crumb-wrap">
                 <ul class="sui-breadcrumb">
-                    <li th:each="category : ${categories}">
-                        <a href="#" th:text="${category.name}"></a>
+                    <li v-for="category in categories">
+                        <a href="#">{{category.name}}</a>
                     </li>
 
                     <li>
-                        <a href="#" th:text="${brand.name}"></a>
+                        <a href="#">{{brand.name}}</a>
                     </li>
-                    <li class="active" th:text="${spu.title}"></li>
+                    <li class="active">{{spu.title}}</li>
                 </ul>
             </div>
             <!--product-info-->
@@ -152,9 +152,9 @@
                 </div>
                 <div class="fr itemInfo-wrap">
                     <div class="sku-name">
-                        <h4 th:text="${sku.title}"></h4>
+                        <h4>{{sku.title}}</h4>
                     </div>
-                    <div class="news"><span th:text="${spu.subTitle}"></span></div>
+                    <div class="news"><span v-html="spu.subTitle"></span></div>
                     <div class="summary">
                         <div class="summary-wrap">
                             <div class="fl title"><i>价　　格</i></div>
@@ -692,6 +692,14 @@
             },
             images() {
                 return this.sku.images ? this.sku.images.split(",") : ['']
+            },
+            ownSpec() {
+                const ownSpec = JSON.parse(this.sku.ownSpec);
+                const obj = {};
+                Object.keys(ownSpec).forEach(id => {
+                    obj[this.params[id]] = ownSpec[id];
+                })
+                return obj;
             }
         },
         methods: {
@@ -702,35 +710,27 @@
                     image: this.images[0],
                     price: this.sku.price,
                     num: this.num,
-                    ownSpec: this.sku.ownSpec
+                    ownSpec: JSON.stringify(this.sku.ownSpec)
                 };
 
-                ly.http.get("auth/verify")
-                    .then(resp => {
-                        //已经登录
-
-                        ly.http.post("/cart/addCart", cart)
-                            .then(resp => {
-                                // 跳转  用来展示购物车的内容
-                                window.location.href = "http://www.leyou.com/cart.html";
-                            }).catch(resp => {
-                            alert("添加失败");
-                        })
-
-                    }).catch(resp => {
+                ly.http.get("auth/verify").then(resp => {
+                    //已经登录
+                    ly.http.post("/cart/addCart", cart)
+                        .then(resp => {
+                            // 跳转 用来展示购物车的内容
+                            window.location.href = "http://www.leyou.com/cart.html";
+                        }).catch(resp => {
+                        alert("添加购物车失败，请重试！");
+                    })
+                }).catch(() => {
                     //未登录
-                    /**
-                     * 构造一个购物车的数据对象
-                     * */
-
-                        //看一下本地localStorage有没有存过这个玩意，如果已经存过了，改数量
+                    //看一下本地localStorage有没有存过这个玩意，如果已经存过了，改数量
                     let localCarts = ly.store.get("carts") || [];
-
+                    // 获取与当前商品id一致的购物车数据
                     let storeCart = localCarts.find(ct => ct.skuId === cart.skuId);
-
                     //本地已经有了就改值
                     if (storeCart) {
-                        storeCart.num = storeCart.num + cart.num;
+                        storeCart.num += cart.num;
                     } else {
                         localCarts.push(cart);
                     }

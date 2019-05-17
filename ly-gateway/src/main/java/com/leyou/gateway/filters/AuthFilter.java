@@ -1,4 +1,4 @@
-package com.leyou.gateway.fifters;
+package com.leyou.gateway.filters;
 
 import com.leyou.auto.pojo.UserInfo;
 import com.leyou.auto.utils.JwtUtils;
