@@ -2,6 +2,7 @@ package com.leyou.item.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.leyou.common.dto.CartDto;
 import com.leyou.common.enums.ExceptionEnum;
 import com.leyou.common.exception.LyException;
 import com.leyou.common.vo.PageResult;
@@ -244,5 +245,15 @@ public class GoodsService {
         Map<Long, Integer> stockMap = stockList.stream()
                 .collect(Collectors.toMap(Stock::getSkuId, Stock::getStock));
         skuList.forEach(s -> s.setStock(stockMap.get(s.getId())));
+    }
+
+    @Transactional
+    public void decreaseStock(List<CartDto> carts) {
+        for (CartDto cart : carts) {
+            // 减库存
+            int count = stockMapper.decreaseStock(cart.getSkuId(), cart.getNum());
+            if (count != 1)
+                throw new LyException(ExceptionEnum.STOCK_NOT_ENOUGH);
+        }
     }
 }

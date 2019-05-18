@@ -41,6 +41,8 @@ public enum ExceptionEnum {
     CREATE_TOKEN_ERROR(500, "用户凭证生成失败"),
     UNAUTHORIZED(403, "未授权"),
     CART_NOT_FOUND(404, "购物车为空"),
+    CREATE_ORDER_ERROR(500, "创建订单失败"),
+    STOCK_NOT_ENOUGH(500, "库存不足"),
     ;
 
     private int code;

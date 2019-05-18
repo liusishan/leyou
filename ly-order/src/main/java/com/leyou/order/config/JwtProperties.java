@@ -21,7 +21,6 @@ public class JwtProperties {
 
     private PublicKey publicKey; // 公钥
 
-
     // 类一但实例化后，就应该读取公钥
     // 该注解在构造函数执行之后执行
     @PostConstruct

@@ -17,10 +17,13 @@ eureka:
   instance:
     prefer-ip-address: true
     ip-address: 127.0.0.1
+mybatis:
+  type-aliases-package: com.leyou.order.pojo
 
 ly:
   jwt:
     pubKeyPath: D:/leyou/rsa/rsa.pub # 公钥地址
     cookieName: LY_TOKEN
-mybatis:
-  type-aliases-package: com.leyou.order.pojo
+  worker:
+    workerId: 1
+    datacenterId: 1
