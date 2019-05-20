@@ -27,3 +27,10 @@ ly:
   worker:
     workerId: 1
     datacenterId: 1
+  pay:
+    appID:
+    macID:
+    key:
+    httpConnectTimeoutMs: 1000
+    httpReadTimeoutMs: 8000
+    notifyUrl: http://www.leyou.com/
